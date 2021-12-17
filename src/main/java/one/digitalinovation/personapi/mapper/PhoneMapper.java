@@ -2,10 +2,12 @@ package one.digitalinovation.personapi.mapper;
 
 import one.digitalinovation.personapi.dto.request.PhoneDTO;
 import one.digitalinovation.personapi.entity.Phone;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class PhoneMapper {
 
     public Phone toEntity(PhoneDTO phoneDTO){

@@ -3,12 +3,14 @@ package one.digitalinovation.personapi.service;
 import one.digitalinovation.personapi.dto.MessageResponseDTO;
 import one.digitalinovation.personapi.dto.request.PersonDTO;
 import one.digitalinovation.personapi.entity.Person;
+import one.digitalinovation.personapi.exception.PersonNotFoundException;
 import one.digitalinovation.personapi.mapper.PersonMapper;
 import one.digitalinovation.personapi.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -16,20 +18,29 @@ public class PersonService {
     private final PersonRepository personRepository;
 
     @Autowired
+    private PersonMapper personMapper;
+
+    @Autowired
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
     public MessageResponseDTO createPerson(PersonDTO personDTO){
-        PersonMapper personMapper = new PersonMapper();
-        Person savedPerson = this.personRepository.save(personMapper.toEntity(personDTO));
+        Person savedPerson = this.personRepository.save(this.personMapper.toEntity(personDTO));
         return MessageResponseDTO.builder()
                 .message("Person created with ID = "+ savedPerson.getId())
                 .build();
     }
 
     public List<PersonDTO> findAll() {
-        PersonMapper personMapper = new PersonMapper();
-        return personMapper.toDTO(personRepository.findAll());
+        return this.personMapper.toDTO(this.personRepository.findAll());
+    }
+
+    public PersonDTO findById(Long idPerson) throws PersonNotFoundException {
+        return this.personMapper.toDTO(
+                this.personRepository.findById(idPerson)
+                        .orElseThrow(() -> new PersonNotFoundException(idPerson)
+                        )
+        );
     }
 }

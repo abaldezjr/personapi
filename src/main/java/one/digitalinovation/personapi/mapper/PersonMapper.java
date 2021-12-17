@@ -2,17 +2,17 @@ package one.digitalinovation.personapi.mapper;
 
 import one.digitalinovation.personapi.dto.request.PersonDTO;
 import one.digitalinovation.personapi.entity.Person;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class PersonMapper {
 
-    private final PhoneMapper phoneMapper;
-
-    public PersonMapper() {
-        phoneMapper = new PhoneMapper();
-    }
+    @Autowired
+    private PhoneMapper phoneMapper;
 
     public Person toEntity(PersonDTO personDTO){
         return Person.builder()
