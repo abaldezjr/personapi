@@ -16,6 +16,7 @@ public class PersonMapper {
 
     public Person toEntity(PersonDTO personDTO){
         return Person.builder()
+                .id(personDTO.getId())
                 .firstName(personDTO.getFirstName())
                 .lastName(personDTO.getLastName())
                 .cpf(personDTO.getCpf())
