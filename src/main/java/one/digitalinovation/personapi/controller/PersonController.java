@@ -44,4 +44,9 @@ public class PersonController {
         this.personService.deletePerson(idPerson);
     }
 
+    @PutMapping("/{idPerson}")
+    public MessageResponseDTO updatePerson(@PathVariable Long idPerson,@RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException {
+        return this.personService.updatePerson(idPerson, personDTO);
+    }
+
 }
